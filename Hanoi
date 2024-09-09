@@ -1,0 +1,11 @@
+def hanoi(n, from_pole, to_pole, by_pole):
+    if n == 1:
+        print(f"Move: {from_pole} -> {to_pole}")
+    else:
+        hanoi(n - 1, from_pole, by_pole, to_pole)  
+        print(f"Move: {from_pole} -> {to_pole}")   
+        hanoi(n - 1, by_pole, to_pole, from_pole) 
+
+
+n = 4  
+hanoi(n, 'A', 'C', 'B')  
