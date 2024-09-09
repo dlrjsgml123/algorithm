@@ -1,0 +1,34 @@
+import time
+
+# 재귀적 방법으로 팩토리얼 계산
+def factorial_recursive(n):
+    if n == 1 or n == 0:  # 0! = 1
+        return 1
+    else:
+        return n * factorial_recursive(n - 1)
+
+# 반복문으로 팩토리얼 계산
+def factorial_iterative(n):
+    fact = 1
+    for i in range(2, n + 1):
+        fact *= i
+    return fact
+
+# 팩토리얼 계산에 사용할 숫자
+number = 20  # 적절한 값을 설정
+
+# 재귀적 방법 실행 시간 측정
+start_time = time.perf_counter()
+result_recursive = factorial_recursive(number)
+end_time = time.perf_counter()
+elapsed_time_recursive = end_time - start_time
+print(f"재귀적 방법으로 계산한 {number}!의 결과는 {result_recursive}입니다.")
+print(f"재귀적 방법의 실행 시간: {elapsed_time_recursive:.6f} 초")
+
+# 반복문 방법 실행 시간 측정
+start_time = time.perf_counter()
+result_iterative = factorial_iterative(number)
+end_time = time.perf_counter()
+elapsed_time_iterative = end_time - start_time
+print(f"반복문 방법으로 계산한 {number}!의 결과는 {result_iterative}입니다.")
+print(f"반복문 방법의 실행 시간: {elapsed_time_iterative:.6f} 초")
