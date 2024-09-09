@@ -1,0 +1,14 @@
+def euclid(a, b):
+    if b == 0:
+        return a
+    else:
+        return euclid(b, a % b)
+
+
+a = 1679
+b = 874
+
+
+result = euclid(a, b)
+
+print(f"The GCD of {a} and {b} is {result}")
