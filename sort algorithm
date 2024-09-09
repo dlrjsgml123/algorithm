@@ -1,0 +1,104 @@
+import random
+import time
+
+MAX = 1000000 
+
+class SortDemo:
+    def __init__(self):
+        self.a = [0] * MAX
+        self.N = 0
+
+    def randomize(self, N):
+        self.N = N
+        for i in range(N):
+            self.a[i] = random.randint(0, 5 * N)
+
+    def print_data(self, label):
+        print(f"\n{label}")
+        print(" ".join(map(str, self.a[:self.N])))
+
+    def bubble_sort(self):
+        a = self.a[:self.N]  # 작업을 위한 배열 복사
+        for i in range(len(a)):
+            for j in range(len(a) - 1):
+                if a[j] > a[j + 1]:
+                    a[j], a[j + 1] = a[j + 1], a[j]
+        self.a[:self.N] = a
+
+    def quick_sort(self, a, left, right):
+        if left < right:
+            p = self.partition(a, left, right)
+            self.quick_sort(a, left, p - 1)
+            self.quick_sort(a, p + 1, right)
+
+    def partition(self, a, left, right):
+        pivot = a[right]
+        i = left
+        for j in range(left, right):
+            if a[j] <= pivot:
+                a[i], a[j] = a[j], a[i]
+                i += 1
+        a[i], a[right] = a[right], a[i]
+        return i
+
+    def merge_sort(self, a, left, right):
+        if left < right:
+            mid = (left + right) // 2
+            self.merge_sort(a, left, mid)
+            self.merge_sort(a, mid + 1, right)
+            self.merge(a, left, mid, right)
+
+    def merge(self, a, left, mid, right):
+        L = a[left:mid + 1]
+        R = a[mid + 1:right + 1]
+        i = j = 0
+        k = left
+        while i < len(L) and j < len(R):
+            if L[i] <= R[j]:
+                a[k] = L[i]
+                i += 1
+            else:
+                a[k] = R[j]
+                j += 1
+            k += 1
+        while i < len(L):
+            a[k] = L[i]
+            i += 1
+            k += 1
+        while j < len(R):
+            a[k] = R[j]
+            j += 1
+            k += 1
+
+    def time_sorts(self, N):
+        self.randomize(N)
+        print("Original Data:")
+        self.print_data("Original Data")
+
+        # Bubble Sort
+        start_time = time.time()
+        self.bubble_sort()
+        elapsed_time = time.time() - start_time
+        print(f"Bubble Sort: {elapsed_time:.6f} seconds")
+        self.print_data("Bubble Sorted Data")
+
+        # Quick Sort
+        self.randomize(N)
+        start_time = time.time()
+        self.quick_sort(self.a, 0, self.N - 1)
+        elapsed_time = time.time() - start_time
+        print(f"Quick Sort: {elapsed_time:.6f} seconds")
+        self.print_data("Quick Sorted Data")
+
+        # Merge Sort
+        self.randomize(N)
+        start_time = time.time()
+        self.merge_sort(self.a, 0, self.N - 1)
+        elapsed_time = time.time() - start_time
+        print(f"Merge Sort: {elapsed_time:.6f} seconds")
+        self.print_data("Merge Sorted Data")
+
+# Usage
+demo = SortDemo()
+N = int(input("Enter number of elements: "))
+demo.time_sorts(N)
