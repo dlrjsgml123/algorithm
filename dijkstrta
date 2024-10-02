@@ -1,0 +1,54 @@
+V = 10  # Number of vertices
+city = ["서울", "천안", "원주", "강릉", "논산", "대전", "대구", "포항", "광주", "부산"]
+spt_set = [False] * V
+D = [float('inf')] * V  # Array to store the shortest path values
+
+def main():
+    graph = [
+        [0, 12, 15, 0, 0, 0, 0, 0, 0, 0],
+        [12, 0, 0, 0, 4, 10, 0, 0, 0, 0],
+        [15, 0, 0, 21, 0, 0, 7, 0, 0, 0],
+        [0, 0, 21, 0, 0, 0, 0, 25, 0, 0],
+        [0, 4, 0, 0, 0, 3, 0, 0, 13, 0],
+        [0, 10, 0, 0, 3, 0, 10, 0, 0, 0],
+        [0, 0, 7, 0, 0, 10, 0, 19, 0, 9],
+        [0, 0, 0, 25, 0, 0, 19, 0, 0, 5],
+        [0, 0, 0, 0, 13, 0, 0, 0, 0, 15],
+        [0, 0, 0, 0, 0, 0, 9, 5, 15, 0]
+    ]
+
+    shortest_path(graph, 0)  # 0 is the index of the starting city
+
+def shortest_path(graph, s):
+    global D, spt_set
+    D[s] = 0
+
+    for _ in range(V - 1):
+        min_index = min_distance()
+        spt_set[min_index] = True
+
+        # Update D[] array
+        for v in range(V):
+            if not spt_set[v] and graph[min_index][v] != 0 and D[min_index] + graph[min_index][v] < D[v]:
+                D[v] = D[min_index] + graph[min_index][v]
+
+        print(f"최단경로 버텍스: {city[min_index]}")
+        print_dist()
+
+def print_dist():
+    for i in range(V):
+        print(f"{city[i]}: {D[i]}")
+
+def min_distance():
+    min_value = float('inf')
+    min_index = -1
+
+    for i in range(V):
+        if not spt_set[i] and D[i] < min_value:
+            min_value = D[i]
+            min_index = i
+
+    return min_index
+
+if __name__ == "__main__":
+    main()
